@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QA Lab — Portal de prática para Quality Assurance</title>
+<script>(function(){try{if(localStorage.getItem('qalab_theme')==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1C1F26; --panel:#242832; --panel-2:#2C313D;
+    --paper:#F3F1E7; --paper-line:#d8d4c4;
+    --yellow:#F5B700; --red:#E4572E; --green:#3DB88B;
+    --text:#E9E9E4; --muted:#9AA0AC;
+    --border:#333843; --border-soft:#33384220; --border-soft2:#33384280; --border-strong:#4a4f5b;
+    --nav-bg:rgba(28,31,38,.92);
+    --mono:'JetBrains Mono',monospace; --display:'Oswald',sans-serif; --body:'Work Sans',sans-serif;
+  }
+  [data-theme="light"]{
+    --bg:#F5F3EC; --panel:#FFFFFF; --panel-2:#EFEDE3;
+    --yellow:#8A5A00; --red:#C23B1D; --green:#1F8F68;
+    --text:#22252B; --muted:#5B6270;
+    --border:#DEDCD3; --border-soft:#DEDCD330; --border-soft2:#DEDCD3A0; --border-strong:#C7C3B6;
+    --nav-bg:rgba(245,243,236,.92);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:var(--body); line-height:1.5; transition:background .2s, color .2s;}
+  .theme-toggle{display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:.72rem; background:none; border:1px solid var(--border-strong); color:var(--muted); padding:8px 14px; border-radius:100px; cursor:pointer; transition:color .15s, border-color .15s;}
+  .theme-toggle:hover{color:var(--yellow); border-color:var(--yellow);}
+  a{color:inherit;}
+  .container{max-width:1120px; margin:0 auto; padding:0 24px;}
+
+  /* NAV */
+  nav{position:sticky; top:0; z-index:50; background:var(--nav-bg); backdrop-filter:blur(6px); border-bottom:1px solid var(--border-soft2);}
+  nav .container{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:var(--display); font-weight:700; font-size:1.15rem; letter-spacing:.02em;}
+  .brand .dot{width:10px; height:10px; background:var(--yellow); border-radius:50%; box-shadow:0 0 0 3px #F5B70030;}
+  .navlinks{display:flex; gap:28px; font-size:.92rem; font-weight:500;}
+  .navlinks a{text-decoration:none; color:var(--muted); transition:color .15s;}
+  .navlinks a:hover{color:var(--yellow);}
+
+  /* HERO */
+  .hero{padding:88px 0 64px; position:relative; overflow:hidden;}
+  .hero::before{content:""; position:absolute; inset:0; background-image:
+     linear-gradient(var(--border-soft) 1px, transparent 1px),
+     linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+     background-size:38px 38px; mask-image:radial-gradient(circle at 30% 20%, black, transparent 70%); pointer-events:none;}
+  .hero-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:48px; align-items:center; position:relative;}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;}}
+  .eyebrow{display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:.75rem; letter-spacing:.12em; color:var(--yellow); text-transform:uppercase; border:1px solid #F5B70050; padding:6px 12px; border-radius:100px;}
+  h1{font-family:var(--display); font-size:3.1rem; line-height:1.05; margin:20px 0 18px; font-weight:700;}
+  @media(max-width:640px){h1{font-size:2.2rem;}}
+  h1 span{color:var(--yellow);}
+  .lead{color:var(--muted); font-size:1.08rem; max-width:52ch; margin-bottom:32px;}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:13px 22px; border-radius:6px; font-weight:600; font-size:.95rem; text-decoration:none; border:1px solid transparent; transition:transform .12s ease, background .15s;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--yellow); color:#1C1F26;}
+  .btn-ghost{border-color:var(--border-strong); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--yellow);}
+
+  /* STAMP */
+  .stamp-wrap{display:flex; justify-content:center;}
+  .stamp{width:230px; height:230px; border-radius:50%; border:5px solid var(--red); display:flex; align-items:center; justify-content:center; transform:rotate(-11deg); position:relative; background:radial-gradient(circle at 40% 35%, #E4572E10, transparent 70%);}
+  .stamp::before, .stamp::after{content:""; position:absolute; border-radius:50%; border:1.5px solid var(--red); opacity:.55;}
+  .stamp::before{inset:12px;}
+  .stamp .txt{font-family:var(--display); color:var(--red); text-align:center; font-weight:700; font-size:1.28rem; letter-spacing:.06em; line-height:1.3;}
+  .stamp .txt small{display:block; font-family:var(--mono); font-size:.62rem; letter-spacing:.18em; color:var(--red); margin-top:6px; font-weight:500;}
+
+  /* CARDS */
+  section{padding:64px 0;}
+  .section-head{margin-bottom:38px;}
+  .section-head .tag{font-family:var(--mono); font-size:.72rem; color:var(--yellow); letter-spacing:.14em; text-transform:uppercase;}
+  .section-head h2{font-family:var(--display); font-size:1.9rem; margin:10px 0 0;}
+  .cards{display:grid; grid-template-columns:repeat(2,1fr); gap:20px;}
+  @media(max-width:860px){.cards{grid-template-columns:1fr;}}
+  .card{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:26px; display:flex; flex-direction:column; gap:14px; transition:border-color .15s, transform .15s;}
+  .card:hover{border-color:var(--yellow); transform:translateY(-3px);}
+  .card .num{font-family:var(--mono); color:var(--muted); font-size:.8rem;}
+  .card h3{font-family:var(--display); font-size:1.25rem; margin:0;}
+  .card p{color:var(--muted); font-size:.92rem; margin:0; flex-grow:1;}
+  .card .link{font-family:var(--mono); font-size:.82rem; color:var(--yellow); text-decoration:none; font-weight:500;}
+  .badge-row{display:flex; gap:8px; flex-wrap:wrap;}
+  .badge{font-family:var(--mono); font-size:.68rem; padding:3px 9px; border-radius:100px; background:var(--panel-2); color:var(--muted); border:1px solid var(--border);}
+
+  /* PROCESS */
+  .process{counter-reset:step; display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--border); border-radius:10px; overflow:hidden;}
+  @media(max-width:860px){.process{grid-template-columns:1fr;}}
+  .step{counter-increment:step; padding:28px 22px; background:var(--panel); position:relative; border-right:1px solid var(--border);}
+  .process .step:last-child{border-right:none;}
+  @media(max-width:860px){.step{border-right:none; border-bottom:1px solid var(--border);}}
+  .step::before{content:counter(step,decimal-leading-zero); font-family:var(--mono); color:var(--yellow); font-size:.85rem; display:block; margin-bottom:12px;}
+  .step h4{font-family:var(--display); margin:0 0 8px; font-size:1.05rem;}
+  .step p{color:var(--muted); font-size:.87rem; margin:0;}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--border); padding:34px 0; color:var(--muted); font-size:.85rem;}
+  footer .container{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+  footer .mono{font-family:var(--mono);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="brand"><span class="dot"></span> QA LAB</div>
+    <div class="navlinks">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="loja.html">Loja TechCart</a>
+      <a href="chamados.html">Painel de chamados</a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema claro/escuro">🌓 <span id="theme-label">Escuro</span></button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">● Ambiente de prática — controle de qualidade</span>
+      <h1>Encontre o bug.<br>Abra o chamado.<br><span>Prove que funciona.</span></h1>
+      <p class="lead">Este portal reúne dois produtos separados, como num time de QA de verdade: uma loja real para testar e um painel de chamados independente para planejar, executar e rastrear cada teste — rumo à automação.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="loja.html">Abrir loja TechCart →</a>
+        <a class="btn btn-ghost" href="chamados.html">Abrir painel de chamados</a>
+      </div>
+    </div>
+    <div class="stamp-wrap">
+      <div class="stamp">
+        <div class="txt">EM<br>INSPEÇÃO<small>QA LAB · CONTROLE DE QUALIDADE</small></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="como-funciona">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">Fluxo de trabalho</span>
+      <h2>Como funciona o laboratório</h2>
+    </div>
+    <div class="process">
+      <div class="step"><h4>Explore</h4><p>Navegue pela TechCart — login, cadastro, busca e carrinho — como se fosse uma loja real que você precisa homologar.</p></div>
+      <div class="step"><h4>Abra chamados</h4><p>No painel separado, registre cada cenário que for testar: pré-condição, passos, resultado esperado. Use o checklist de referência como ponto de partida.</p></div>
+      <div class="step"><h4>Execute</h4><p>Mova o chamado pelo quadro (Aberto → Em andamento → Bug encontrado ou Resolvido) e registre severidade quando encontrar um defeito.</p></div>
+      <div class="step"><h4>Evolua</h4><p>Com o fluxo estável, comece a automatizar os cenários críticos com Playwright/Cypress e publique um relatório de execução.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">Dois produtos, dois propósitos</span>
+      <h2>O que você tem disponível</h2>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <span class="num">01 / SUT — Sistema sob teste</span>
+        <h3>Loja TechCart</h3>
+        <p>Site de e-commerce completo, com vitrine, catálogo, carrinho, login e cadastro. Contém defeitos propositais distribuídos entre os módulos — cabe a você encontrá-los.</p>
+        <div class="badge-row"><span class="badge">Vitrine</span><span class="badge">Catálogo</span><span class="badge">Carrinho</span><span class="badge">Login/Cadastro</span></div>
+        <a class="link" href="loja.html">Abrir loja →</a>
+      </div>
+      <div class="card">
+        <span class="num">02 / Ferramenta de QA</span>
+        <h3>Painel de chamados</h3>
+        <p>Quadro estilo Kanban (Aberto, Em andamento, Bug encontrado, Resolvido) para abrir, acompanhar e resolver cada cenário de teste, com dashboard e checklist de referência.</p>
+        <div class="badge-row"><span class="badge">Kanban</span><span class="badge">Severidade</span><span class="badge">Export CSV</span></div>
+        <a class="link" href="chamados.html">Abrir painel →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <span class="mono">qa-lab/</span>
+    <span>Construído para praticar QA de verdade — sem frameworks, só HTML/CSS/JS. Publique este repositório no GitHub Pages.</span>
+  </div>
+</footer>
+
+<script>
+function aplicarLabel(){
+  const claro = document.documentElement.getAttribute('data-theme') === 'light';
+  document.getElementById('theme-label').textContent = claro ? 'Claro' : 'Escuro';
+}
+document.getElementById('theme-toggle').addEventListener('click', ()=>{
+  const claro = document.documentElement.getAttribute('data-theme') === 'light';
+  if(claro){
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('qalab_theme', 'dark');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('qalab_theme', 'light');
+  }
+  aplicarLabel();
+});
+aplicarLabel();
+</script>
+
+</body>
+</html>
